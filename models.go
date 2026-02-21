@@ -1,15 +1,31 @@
 package main
 
+import "github.com/charmbracelet/bubbles/textarea"
+
+type ModelType int
+
+const (
+	TypeSelector ModelType = iota
+	TypeSession
+	TypeNone
+)
+
 type model struct {
-	prompt         string
-	journalPrompts []journalPrompt
-	cursor         int
-	selected       map[int]struct{}
+	prompt string
+	model  ModelType
+
+	// Optional fields, only for selector type
+	cursorPos int
+	options   []journalPrompt
+	selected  []journalPrompt
+
+	textarea textarea.Model
 }
 
 type journalPrompt struct {
-	name   string
-	prompt string
+	name        string
+	prompt      string
+	placeholder string
 }
 
 func newJournalPrompt(name, prompt string) journalPrompt {
@@ -19,22 +35,40 @@ func newJournalPrompt(name, prompt string) journalPrompt {
 	}
 }
 
-func initialModel() model {
-	return model{
-		prompt: "What do you want to write about today? Choose a few prompts to get started.",
-		journalPrompts: []journalPrompt{
-			newJournalPrompt("Today's Thoughts", "What are you thinking about today? Any recurring thoughts that you can't get out of your head?"),
-			newJournalPrompt("Graditude is Rad-itude", "What are you thankful for today?"),
-			newJournalPrompt("My Media Diet", "What are you consuming lately? Games, movies, music, books... anything!"),
-		},
+func (p journalPrompt) withPlaceholder(ph string) journalPrompt {
+	p.placeholder = ph
+	return p
+}
 
-		selected: make(map[int]struct{}),
+func initialModel() model {
+	prompts := []journalPrompt{
+		newJournalPrompt("Today's Thoughts", "What are you thinking about today? Any recurring thoughts that you can't get out of your head?"),
+		newJournalPrompt("Graditude is Rad-itude", "What are you thankful for today?"),
+		newJournalPrompt("My Media Diet", "What are you consuming lately? Games, movies, music, books... anything!"),
+
+		newJournalPrompt("Get started", ""),
+	}
+
+	return model{
+		prompt:   "What do you want to write about today? Choose a few prompts to get started.",
+		options:  prompts,
+		selected: make([]journalPrompt, 0, len(prompts)),
+		model:    TypeSelector,
 	}
 }
 
-func journalSession(p journalPrompt) model {
+func startSession(p journalPrompt) model {
 	modelPrompt := p.prompt
+
+	input := textarea.New()
+	input.Placeholder = p.placeholder
+	input.Focus()
+
 	return model{
-		prompt: modelPrompt,
+		prompt:   modelPrompt,
+		model:    TypeSession,
+		options:  make([]journalPrompt, 0),
+		selected: make([]journalPrompt, 0),
+		textarea: input,
 	}
 }
