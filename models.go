@@ -1,6 +1,8 @@
 package main
 
-import "github.com/charmbracelet/bubbles/textarea"
+import (
+	"github.com/charmbracelet/bubbles/textarea"
+)
 
 type ModelType int
 

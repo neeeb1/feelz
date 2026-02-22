@@ -57,7 +57,11 @@ func updateSelector(msg tea.Msg, m model) (tea.Model, tea.Cmd) {
 
 		case "enter", " ":
 			if m.cursorPos == len(m.options)-1 {
-				m = startSession(m.selected[0])
+				if len(m.selected) != 0 {
+					m = startSession(m.selected[0])
+				} else {
+					fmt.Println("\n\nPlease select at least one option!")
+				}
 			} else {
 				ok := slices.Contains(m.selected, m.options[m.cursorPos])
 				if ok {
@@ -163,7 +167,9 @@ func checkbox(name string, checked bool) string {
 }
 
 func main() {
-	p := tea.NewProgram(initialModel())
+	m := initialModel()
+
+	p := tea.NewProgram(m)
 	if _, err := p.Run(); err != nil {
 		fmt.Printf("An error occured: %v", err)
 		os.Exit(1)
