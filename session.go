@@ -12,12 +12,20 @@ func updateSession(msg tea.Msg, m model) (tea.Model, tea.Cmd) {
 
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
-		switch msg.Type {
-		case tea.KeyEsc:
+		switch msg.String() {
+		case "esc":
 			if m.textarea.Focused() {
 				m.textarea.Blur()
 			}
-		case tea.KeyCtrlC:
+		case "ctrl+n":
+			m.currentPrompt += 1
+			if m.currentPrompt == len(m.selected)-1 {
+				m = startSession(m.selected[m.currentPrompt], m)
+			} else {
+				m = wrapUp(m)
+				cmds = append(cmds, tick)
+			}
+		case "ctrl+c", "q":
 			return m, tea.Quit
 		default:
 			if !m.textarea.Focused() {

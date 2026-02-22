@@ -31,9 +31,10 @@ func updateSelector(msg tea.Msg, m model) (tea.Model, tea.Cmd) {
 		case "enter", " ":
 			if m.cursorPos == len(m.options)-1 {
 				if len(m.selected) != 0 {
-					m = startSession(m.selected[0])
+					m.currentPrompt = 0
+					m = startSession(m.selected[m.currentPrompt], m)
 				} else {
-					fmt.Println("\n\nPlease select at least one option!")
+					m.err = "Please select an option first!"
 				}
 			} else {
 				ok := slices.Contains(m.selected, m.options[m.cursorPos])
@@ -53,6 +54,9 @@ func viewSelector(m model) string {
 	var s strings.Builder
 
 	s.WriteString(m.prompt + "\n\n")
+	if m.err != "" {
+		s.WriteString(writeError(m.err))
+	}
 	for i, choice := range m.options {
 
 		cursor := " "
@@ -79,5 +83,6 @@ func viewSelector(m model) string {
 	}
 
 	s.WriteString("\nPress q to quit.\n")
+
 	return s.String()
 }

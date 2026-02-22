@@ -28,6 +28,9 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case TypeSession:
 		return updateSession(msg, m)
 
+	case TypeWrapUp:
+		return updateWrapUp(msg, m)
+
 	default:
 		return m, tea.Quit
 	}
@@ -41,6 +44,9 @@ func (m model) View() string {
 	case TypeSession:
 		return viewSession(m)
 
+	case TypeWrapUp:
+		return viewWrapUp(m)
+
 	default:
 		return "whoops"
 	}
@@ -52,6 +58,10 @@ func checkbox(name string, checked bool) string {
 		return fmt.Sprintf("[x] %s", name)
 	}
 	return fmt.Sprintf("[ ] %s", name)
+}
+
+func writeError(err string) string {
+	return fmt.Sprintf("Error: %s\n\n", err)
 }
 
 func main() {

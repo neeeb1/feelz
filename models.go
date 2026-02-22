@@ -9,6 +9,7 @@ type ModelType int
 const (
 	TypeSelector ModelType = iota
 	TypeSession
+	TypeWrapUp
 )
 
 type model struct {
@@ -16,6 +17,7 @@ type model struct {
 	model     ModelType
 	cursorPos int
 	selected  []journalPrompt
+	err       string
 
 	// Fields for selector type
 	options []journalPrompt
@@ -23,12 +25,16 @@ type model struct {
 	// Fields for session type
 	textarea      textarea.Model
 	currentPrompt int
+
+	// Fields for wrapUp type
+	timer int
 }
 
 type journalPrompt struct {
 	name            string
 	prompt          string
 	placeholderText string
+	finalText       string
 }
 
 func newJournalPrompt(name, prompt string) journalPrompt {
@@ -60,7 +66,7 @@ func initialModel() model {
 	}
 }
 
-func startSession(p journalPrompt) model {
+func startSession(p journalPrompt, prevModel model) model {
 	modelPrompt := p.prompt
 
 	input := textarea.New()
@@ -68,10 +74,19 @@ func startSession(p journalPrompt) model {
 	input.Focus()
 
 	return model{
-		prompt:   modelPrompt,
-		model:    TypeSession,
-		options:  make([]journalPrompt, 0),
-		selected: make([]journalPrompt, 0),
-		textarea: input,
+		prompt:        modelPrompt,
+		model:         TypeSession,
+		textarea:      input,
+		currentPrompt: prevModel.currentPrompt,
+		selected:      prevModel.selected,
+	}
+}
+
+func wrapUp(prevModel model) model {
+
+	return model{
+		selected: prevModel.selected,
+		model:    TypeWrapUp,
+		timer:    5,
 	}
 }
