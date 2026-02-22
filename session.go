@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
@@ -18,8 +19,10 @@ func updateSession(msg tea.Msg, m model) (tea.Model, tea.Cmd) {
 				m.textarea.Blur()
 			}
 		case "ctrl+n":
+			m.selected[m.currentPrompt].FinalText = m.textarea.Value()
 			m.currentPrompt += 1
-			if m.currentPrompt == len(m.selected)-1 {
+
+			if m.currentPrompt <= len(m.selected)-1 {
 				m = startSession(m.selected[m.currentPrompt], m)
 			} else {
 				m = wrapUp(m)
@@ -44,6 +47,7 @@ func updateSession(msg tea.Msg, m model) (tea.Model, tea.Cmd) {
 func viewSession(m model) string {
 	var s strings.Builder
 
+	fmt.Fprintf(&s, "%d. %s\n\n", m.currentPrompt+1, m.selected[m.currentPrompt].Name)
 	s.WriteString(m.prompt + "\n\n")
 	s.WriteString(m.textarea.View())
 	s.WriteString("\nPress q to quit.\n")

@@ -72,13 +72,13 @@ func viewSelector(m model) string {
 		}
 
 		if i == len(m.options)-1 {
-			fmt.Fprintf(&s, "\n%s %s", cursor, choice.name)
+			fmt.Fprintf(&s, "\n%s %s", cursor, choice.Name)
 			if m.cursorPos == len(m.options)-1 {
 				s.WriteString("!")
 			}
 			s.WriteString("\n")
 		} else {
-			fmt.Fprintf(&s, "%s %s\n", cursor, checkbox(choice.name, checked))
+			fmt.Fprintf(&s, "%s %s\n", cursor, checkbox(choice.Name, checked))
 		}
 	}
 

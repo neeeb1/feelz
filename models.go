@@ -28,19 +28,20 @@ type model struct {
 
 	// Fields for wrapUp type
 	timer int
+	final string
 }
 
 type journalPrompt struct {
-	name            string
-	prompt          string
+	Name            string
+	Prompt          string
 	placeholderText string
-	finalText       string
+	FinalText       string
 }
 
 func newJournalPrompt(name, prompt string) journalPrompt {
 	return journalPrompt{
-		name:   name,
-		prompt: prompt,
+		Name:   name,
+		Prompt: prompt,
 	}
 }
 
@@ -67,7 +68,7 @@ func initialModel() model {
 }
 
 func startSession(p journalPrompt, prevModel model) model {
-	modelPrompt := p.prompt
+	modelPrompt := p.Prompt
 
 	input := textarea.New()
 	input.Placeholder = p.placeholderText
@@ -83,10 +84,20 @@ func startSession(p journalPrompt, prevModel model) model {
 }
 
 func wrapUp(prevModel model) model {
-
-	return model{
+	newModel := model{
 		selected: prevModel.selected,
 		model:    TypeWrapUp,
 		timer:    5,
 	}
+
+	note, err := formatMD(prevModel)
+	if err != nil {
+		newModel.err = err.Error()
+	}
+
+	if err = writeFile("test", note); err != nil {
+		newModel.err = err.Error()
+	}
+
+	return newModel
 }
