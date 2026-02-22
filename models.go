@@ -9,25 +9,26 @@ type ModelType int
 const (
 	TypeSelector ModelType = iota
 	TypeSession
-	TypeNone
 )
 
 type model struct {
-	prompt string
-	model  ModelType
-
-	// Optional fields, only for selector type
+	prompt    string
+	model     ModelType
 	cursorPos int
-	options   []journalPrompt
 	selected  []journalPrompt
 
-	textarea textarea.Model
+	// Fields for selector type
+	options []journalPrompt
+
+	// Fields for session type
+	textarea      textarea.Model
+	currentPrompt int
 }
 
 type journalPrompt struct {
-	name        string
-	prompt      string
-	placeholder string
+	name            string
+	prompt          string
+	placeholderText string
 }
 
 func newJournalPrompt(name, prompt string) journalPrompt {
@@ -38,7 +39,7 @@ func newJournalPrompt(name, prompt string) journalPrompt {
 }
 
 func (p journalPrompt) withPlaceholder(ph string) journalPrompt {
-	p.placeholder = ph
+	p.placeholderText = ph
 	return p
 }
 
@@ -63,7 +64,7 @@ func startSession(p journalPrompt) model {
 	modelPrompt := p.prompt
 
 	input := textarea.New()
-	input.Placeholder = p.placeholder
+	input.Placeholder = p.placeholderText
 	input.Focus()
 
 	return model{
