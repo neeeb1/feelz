@@ -82,6 +82,7 @@ Please keep changes focused and include a clear description of what was changed 
 
 ## 📝 Planned Features
 
+- [ ] Randomizer to keep prompts varied
 - [ ] Configuration and first-time onboarding flow with [Viper](https://github.com/spf13/viper)
 - [ ] Better formatting and UX with [lipgloss](https://github.com/charmbracelet/lipgloss)
 - [ ] Additional formats, templates, and outputs!
