@@ -1,0 +1,30 @@
+{
+  "newConfig": true,
+  "outputPath": "out/",
+  "prompts": [
+    {
+      "Name": "Today's Thoughts",
+      "Prompt": "What are you thinking about today? Any recurring thoughts that you can't get out of your head?",
+      "PlaceholderText": "How DO magnets work? Miracles?",
+      "FinalText": ""
+    },
+    {
+      "Name": "Graditude is Rad-itude",
+      "Prompt": "What are you thankful for today? Try to name 2 or 3 things.",
+      "PlaceholderText": "No barking from the dog\nNo smog\nMama cooked breakfast with no hog",
+      "FinalText": ""
+    },
+    {
+      "Name": "My Media Diet",
+      "Prompt": "What are you consuming lately? Games, movies, music, books... anything!",
+      "PlaceholderText": "",
+      "FinalText": ""
+    },
+    {
+      "Name": "Today's Top Tasks",
+      "Prompt": "Name 3 tasks that are essential for today.\nIf you did these, you've done the bare minimum for a successful day!",
+      "PlaceholderText": "1. Eat\n2. Brush teeth\n3. ???\n4. Profit!",
+      "FinalText": ""
+    }
+  ]
+}

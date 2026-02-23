@@ -53,19 +53,14 @@ func (m model) View() string {
 
 }
 
-func checkbox(name string, checked bool) string {
-	if checked {
-		return fmt.Sprintf("[x] %s", name)
-	}
-	return fmt.Sprintf("[ ] %s", name)
-}
-
-func writeError(err string) string {
-	return fmt.Sprintf("Error: %s\n\n", err)
-}
-
 func main() {
-	m := initialModel()
+	conf, err := loadConfig()
+	if err != nil {
+		fmt.Printf("error: %v", err)
+		os.Exit(1)
+	}
+
+	m := initialModel(conf)
 
 	p := tea.NewProgram(m)
 	if _, err := p.Run(); err != nil {

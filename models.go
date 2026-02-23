@@ -34,7 +34,7 @@ type model struct {
 type journalPrompt struct {
 	Name            string
 	Prompt          string
-	placeholderText string
+	PlaceholderText string
 	FinalText       string
 }
 
@@ -46,18 +46,14 @@ func newJournalPrompt(name, prompt string) journalPrompt {
 }
 
 func (p journalPrompt) withPlaceholder(ph string) journalPrompt {
-	p.placeholderText = ph
+	p.PlaceholderText = ph
 	return p
 }
 
-func initialModel() model {
-	prompts := []journalPrompt{
-		newJournalPrompt("Today's Thoughts", "What are you thinking about today? Any recurring thoughts that you can't get out of your head?"),
-		newJournalPrompt("Graditude is Rad-itude", "What are you thankful for today?"),
-		newJournalPrompt("My Media Diet", "What are you consuming lately? Games, movies, music, books... anything!"),
-
-		newJournalPrompt("Get started", ""),
-	}
+func initialModel(conf config) model {
+	var prompts []journalPrompt
+	prompts = conf.PromptTemplates
+	prompts = append(prompts, newJournalPrompt("Get Started", ""))
 
 	return model{
 		prompt:   "What do you want to write about today? Choose a few prompts to get started.",
@@ -71,7 +67,7 @@ func startSession(p journalPrompt, prevModel model) model {
 	modelPrompt := p.Prompt
 
 	input := textarea.New()
-	input.Placeholder = p.placeholderText
+	input.Placeholder = p.PlaceholderText
 	input.Focus()
 
 	return model{
