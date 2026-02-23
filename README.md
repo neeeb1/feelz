@@ -80,9 +80,15 @@ Contributions are welcome. If you have an idea for a new journal prompt, a UI im
 
 Please keep changes focused and include a clear description of what was changed and why.
 
+## 📝 Planned Features
+
+- [ ] Configuration and first-time onboarding flow with [Viper](https://github.com/spf13/viper)
+- [ ] Better formatting and UX with [lipgloss](https://github.com/charmbracelet/lipgloss)
+- [ ] Additional formats, templates, and outputs!
+
 ## Author
 
-Made with love by [neeeb1](https://github.com/neeeb1)
+Made with ❤ by [neeeb1](https://github.com/neeeb1)
 
 ---
 
