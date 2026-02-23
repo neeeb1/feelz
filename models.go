@@ -58,7 +58,18 @@ func initialModel(conf config) model {
 	prompts = append(prompts, newJournalPrompt("Get Started", ""))
 
 	return model{
-		prompt:   "What do you want to write about today? Choose a few prompts to get started.",
+		prompt: `
+░▒▓████████▓▒░▒▓████████▓▒░▒▓████████▓▒░▒▓█▓▒░      ░▒▓████████▓▒░ 
+░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░             ░▒▓█▓▒░ 
+░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░           ░▒▓██▓▒░  
+░▒▓██████▓▒░ ░▒▓██████▓▒░ ░▒▓██████▓▒░ ░▒▓█▓▒░         ░▒▓██▓▒░    
+░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░       ░▒▓██▓▒░      
+░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░      ░▒▓█▓▒░        
+░▒▓█▓▒░      ░▒▓████████▓▒░▒▓████████▓▒░▒▓████████▓▒░▒▓████████▓▒░ 
+                                                                   
+                                                                   
+
+What do you want to write about today? Choose a few prompts to get started.`,
 		options:  prompts,
 		selected: make([]journalPrompt, 0, len(prompts)),
 		model:    TypeSelector,

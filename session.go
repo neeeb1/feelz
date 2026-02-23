@@ -47,7 +47,7 @@ func updateSession(msg tea.Msg, m model) (tea.Model, tea.Cmd) {
 func viewSession(m model) string {
 	var s strings.Builder
 
-	fmt.Fprintf(&s, "%d. %s\n\n", m.currentPrompt+1, m.selected[m.currentPrompt].Name)
+	fmt.Fprintf(&s, "\n\n%d. %s\n\n", m.currentPrompt+1, m.selected[m.currentPrompt].Name)
 	s.WriteString(m.prompt + "\n\n")
 	s.WriteString(m.textarea.View() + "\n\n")
 
