@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/charmbracelet/bubbles/textarea"
 )
 
@@ -91,7 +93,8 @@ func wrapUp(prevModel model) model {
 		newModel.err = err.Error()
 	}
 
-	if err = writeFile("test", note); err != nil {
+	title := time.Now().Format("01-02-2006")
+	if err = writeFile(title, note); err != nil {
 		newModel.err = err.Error()
 	}
 

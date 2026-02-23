@@ -49,7 +49,8 @@ func viewSession(m model) string {
 
 	fmt.Fprintf(&s, "%d. %s\n\n", m.currentPrompt+1, m.selected[m.currentPrompt].Name)
 	s.WriteString(m.prompt + "\n\n")
-	s.WriteString(m.textarea.View())
-	s.WriteString("\nPress q to quit.\n")
+	s.WriteString(m.textarea.View() + "\n\n")
+
+	s.WriteString("q to quit - ctrl+n to submit and continue\n")
 	return s.String()
 }

@@ -1,11 +1,11 @@
-{{ .Date }}
+# {{ .Date }}
 
-# Daily Notes
+## Daily Notes
 
 {{ range .Prompts}}
 ### {{ .Name }}
 
-{{ .Prompt }}
+#### {{ .Prompt }}
 
 {{ .FinalText }}
 
