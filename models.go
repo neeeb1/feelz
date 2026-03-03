@@ -53,10 +53,7 @@ func (p journalPrompt) withPlaceholder(ph string) journalPrompt {
 }
 
 func initialModel(conf config) model {
-	var prompts []journalPrompt
-	prompts = conf.Prompts
-	prompts = append(prompts, newJournalPrompt("I'm Feeling Lucky...", ""))
-	prompts = append(prompts, newJournalPrompt("Get Started", ""))
+	prompts := initSelectorPrompts(conf)
 
 	return model{
 		prompt: `
@@ -91,6 +88,14 @@ func startSession(p journalPrompt, prevModel model) model {
 		currentPrompt: prevModel.currentPrompt,
 		selected:      prevModel.selected,
 	}
+}
+
+func initSelectorPrompts(conf config) []journalPrompt {
+	var prompts []journalPrompt
+	prompts = conf.Prompts
+	prompts = append(prompts, newJournalPrompt("I'm Feeling Lucky...", ""))
+	prompts = append(prompts, newJournalPrompt("Get Started", ""))
+	return prompts
 }
 
 func wrapUp(prevModel model) model {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"slices"
 	"strings"
 
@@ -29,7 +30,13 @@ func updateSelector(msg tea.Msg, m model) (tea.Model, tea.Cmd) {
 			}
 
 		case "enter", " ":
-			if m.cursorPos == len(m.options)-1 {
+			if m.cursorPos == len(m.options)-2 {
+				m.selected = make([]journalPrompt, 0, len(m.options))
+				for range 3 {
+					prompt := m.pickRandomPrompt()
+					m.selected = append(m.selected, prompt)
+				}
+			} else if m.cursorPos == len(m.options)-1 {
 				if len(m.selected) != 0 {
 					m.currentPrompt = 0
 					m = startSession(m.selected[m.currentPrompt], m)
@@ -50,6 +57,19 @@ func updateSelector(msg tea.Msg, m model) (tea.Model, tea.Cmd) {
 	return m, nil
 }
 
+func (m model) pickRandomPrompt() journalPrompt {
+	var prompt journalPrompt
+
+	rng := rand.Intn(len(m.options) - 2)
+	prompt = m.options[rng]
+
+	if slices.Contains(m.selected, prompt) {
+		prompt = m.pickRandomPrompt()
+	}
+
+	return prompt
+}
+
 func viewSelector(m model) string {
 	var s strings.Builder
 
@@ -60,7 +80,9 @@ func viewSelector(m model) string {
 	for i, choice := range m.options {
 
 		cursor := " "
-		if m.cursorPos == len(m.options)-1 && m.cursorPos == i {
+		if m.cursorPos == len(m.options)-2 && m.cursorPos == i {
+			cursor = "!"
+		} else if m.cursorPos == len(m.options)-1 && m.cursorPos == i {
 			cursor = "---->"
 		} else if m.cursorPos == i {
 			cursor = ">"
