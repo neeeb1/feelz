@@ -54,7 +54,8 @@ func (p journalPrompt) withPlaceholder(ph string) journalPrompt {
 
 func initialModel(conf config) model {
 	var prompts []journalPrompt
-	prompts = conf.PromptTemplates
+	prompts = conf.Prompts
+	prompts = append(prompts, newJournalPrompt("I'm Feeling Lucky...", ""))
 	prompts = append(prompts, newJournalPrompt("Get Started", ""))
 
 	return model{

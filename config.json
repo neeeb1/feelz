@@ -1,7 +1,7 @@
 {
-  "newConfig": true,
-  "outputPath": "out/",
-  "prompts": [
+  "NewConfig": true,
+  "OutputPath": "out/",
+  "Prompts": [
     {
       "Name": "Today's Thoughts",
       "Prompt": "What are you thinking about today? Any recurring thoughts that you can't get out of your head?",

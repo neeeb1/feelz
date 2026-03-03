@@ -4,12 +4,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+
+	"github.com/spf13/viper"
 )
 
 type config struct {
-	NewConfig       bool            `json:"newConfig"`
-	OutputPath      string          `json:"outputPath"`
-	PromptTemplates []journalPrompt `json:"prompts"`
+	NewConfig  bool            `json:"newConfig"`
+	OutputPath string          `json:"outputPath"`
+	Prompts    []journalPrompt `json:"prompts"`
 }
 
 func checkbox(name string, checked bool) string {
@@ -34,4 +36,23 @@ func loadConfig() (config, error) {
 	json.Unmarshal(buf, &conf)
 
 	return conf, nil
+}
+
+func viperConfig() (config, error) {
+	var c config
+
+	viper.SetConfigName("config")
+	viper.AddConfigPath(".")
+
+	err := viper.ReadInConfig()
+	if err != nil {
+		return c, err
+	}
+
+	err = viper.Unmarshal(&c)
+	if err != nil {
+		return c, err
+	}
+
+	return c, nil
 }
