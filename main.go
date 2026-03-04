@@ -54,7 +54,7 @@ func (m model) View() string {
 }
 
 func main() {
-	conf, err := viperConfig()
+	conf, err := readViperConfig()
 	if err != nil {
 		fmt.Printf("error: %v", err)
 		os.Exit(1)
